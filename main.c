@@ -11,9 +11,9 @@ int main(void)
 	P1DIR |= BIT0;
 	while(1){
 	    P1OUT |= BIT0;
-	    __delay_cycles(160000);
+	    __delay_cycles(100000);
 	    P1OUT &= ~BIT0;
-	    __delay_cycles(160000);
+	    __delay_cycles(100000);
 	}
 
 
