@@ -7,16 +7,15 @@
 int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
-
-    P1DIR |= BIT0;
-    P1DIR &= ~BIT3;
-    P1OUT &= ~BIT0;
+    //Set 2.5 as output, and 2.3 as input
+    P2DIR |= BIT5;
+    P2DIR &= ~BIT3;
     while(1){
-        if((P1IN & BIT3) == BIT3){
-            P1OUT |= BIT0;
+        if((P2IN & BIT3) == 0){ //2.3 button is pressed
+            P2OUT |= BIT5; //LED on
         }
         else{
-            P1OUT &= ~BIT0;
+            P2OUT &= ~BIT5; //LED off
         }
     }
     return 0;

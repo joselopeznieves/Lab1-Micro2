@@ -10,7 +10,7 @@
 #define E1 P2OUT |= BIT2
 
 
-
+//Enable signal
 void enable(){
     E1;
     __delay_cycles(1600);
@@ -21,14 +21,14 @@ void enable_l(){
     __delay_cycles(1600);
     E1;
 }
-
+//Verify busy flag and wait until it is cleared
 void busy_check(){
     P1DIR &= ~BIT7;
     while((P1IN & BIT7) == 1)
         enable_l();
     P1DIR |= BIT7;
 }
-
+//Pass a command to the LCD module
 void command(unsigned char com){
     busy_check();
     RS0;
@@ -36,7 +36,7 @@ void command(unsigned char com){
     P1OUT = (0x00 & P1OUT) | (com);
     enable();
 }
-
+//Write data to the LCD module
 void data(unsigned char data){
     busy_check();
     RS1;
@@ -44,32 +44,32 @@ void data(unsigned char data){
     P1OUT = (0x00 & P1OUT) | (data);
     enable();
 }
-
+//Clear the display
 void clear(){
     command(0x01);
 }
-
+//Change the cursor's position
 void change_pos(unsigned char pos){
     command(0x80 | pos);
 }
-
+//Send a character array to the LCD
 void send_string(char *s){
     while(*s){
         data(*s);
         s++;
     }
 }
-
+//LCD initialization sequence
 void init_lcd(){
     P1DIR |= 0xFF;
     P2DIR |= 0xFF;
     P1OUT &= 0x00;
     P2OUT &= 0x00;
-    command(0x38);
-    command(0x0E);
+    command(0x38); //Function set
+    command(0x0E); //Display on/off
     clear();
-    command(0x06);
-    change_pos(0x00);
+    command(0x06); //Entry mode set
+    change_pos(0x00); //Initial pos to 0x00
 }
 
 /**

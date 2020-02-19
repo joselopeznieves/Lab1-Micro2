@@ -8,11 +8,11 @@ int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
-	P1DIR |= BIT0;
+	P2DIR |= BIT5; //Port 2.5 as output
 	while(1){
-	    P1OUT |= BIT0;
-	    __delay_cycles(100000);
-	    P1OUT &= ~BIT0;
+	    P2OUT |= BIT5; //Turn on LED
+	    __delay_cycles(100000); //Delay of 100ms
+	    P1OUT &= ~BIT0; //Turn off LED
 	    __delay_cycles(100000);
 	}
 
